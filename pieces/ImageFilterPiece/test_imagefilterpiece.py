@@ -25,6 +25,6 @@ def test_imagefilterpiece():
         piece_name="ImageFilterPiece",
         input_data=input_data
     )
-    for piece_output in piece_outputs:
+    for piece_output in piece_outputs.get('image_file_path'):
         assert piece_output is not None
-        assert piece_output.get('image_file_path').endswith('.png')
+        assert piece_output.endswith('.png')
