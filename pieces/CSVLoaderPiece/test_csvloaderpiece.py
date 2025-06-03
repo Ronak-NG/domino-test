@@ -1,9 +1,10 @@
+from pathlib import Path
 from domino.testing import piece_dry_run
 
 
-
+file_path = str(Path(__file__).parent / "test.csv")
 # Open test image and convert to base64 string using Pillow
-with open('test.csv', 'r') as f:
+with open(file_path, 'r') as f:
 
     csv_file = f.read()
 
