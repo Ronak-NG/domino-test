@@ -1,2 +1,10 @@
 pytest==7.4.3
 pytest-cov==4.1.0
+numpy
+pytz
+pandas
+beautifulsoup4
+python-lorem
+scikit-learn
+pillow
+ydata-profiling
