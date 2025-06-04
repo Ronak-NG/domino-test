@@ -169,15 +169,12 @@
                 "memory": 512
             }
         },
-        
         "input_schema": {
             "properties": {
                 "input_csv_file": {
-                    "default": "url\nhttps://example.com/image1.jpg",
-                    "description": "CSV file contents - paste or edit your CSV data here",
-                    "title": "CSV Data",
-                    "type": "string",
-                    "widget": "textarea"
+                    "description": ".csv file contents",
+                    "title": "Input Csv File",
+                    "type": "string"
                 }
             },
             "required": [
