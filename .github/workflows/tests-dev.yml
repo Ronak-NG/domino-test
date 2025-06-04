@@ -67,25 +67,25 @@ jobs:
           GHCR_USERNAME: ${{ github.actor }}
         run: domino piece publish-images --registry-token ${{ secrets.GITHUB_TOKEN }}
 
-      # - name: Commit files
-      #   id: commit_files
-      #   run: |
-      #     git config --local user.email "github-actions[bot]@users.noreply.github.com"
-      #     git config --local user.name "github-actions[bot]"
-      #     GIT_STATUS=$(git status -s)
-      #     if [[ ! -z "$GIT_STATUS" ]]; then
-      #       git add .domino/* && git commit -m "auto-organize" -a
-      #       echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_ENV
-      #     else
-      #       echo "No changes to commit"
-      #       echo "commit_sha=${{ github.sha }}" >> $GITHUB_ENV
-      #     fi
+      - name: Commit files
+        id: commit_files
+        run: |
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git config --local user.name "github-actions[bot]"
+          GIT_STATUS=$(git status -s)
+          if [[ ! -z "$GIT_STATUS" ]]; then
+            git add .domino/* && git commit -m "auto-organize" -a
+            echo "commit_sha=$(git rev-parse HEAD)" >> $GITHUB_ENV
+          else
+            echo "No changes to commit"
+            echo "commit_sha=${{ github.sha }}" >> $GITHUB_ENV
+          fi
 
-      # - name: Push changes
-      #   uses: ad-m/github-push-action@master
-      #   with:
-      #     github_token: ${{ secrets.GITHUB_TOKEN }}
-      #     branch: ${{ github.ref }}
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: ${{ github.ref }}
 
       - name: Create Release
         env:

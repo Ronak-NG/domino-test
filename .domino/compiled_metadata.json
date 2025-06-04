@@ -173,11 +173,11 @@
         "input_schema": {
             "properties": {
                 "input_csv_file": {
-                    "default": "",
+                    "default": "url\nhttps://example.com/image1.jpg",
                     "description": "CSV file contents - paste or edit your CSV data here",
                     "title": "CSV Data",
                     "type": "string",
-                    "widget": "codeeditor-text"
+                    "widget": "textarea"
                 }
             },
             "required": [
