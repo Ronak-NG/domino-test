@@ -2,7 +2,7 @@
     "name": "ExampleSineWavePiece",
     "description": "This is an example of a piece that uses Dockerfile for dependencies.",
     "dependency": {
-        "dockerfile": "Dockerfile_1"
+        "requirements_file": "requirements_0.txt"
     },
     "container_resources": {
         "requests": {
