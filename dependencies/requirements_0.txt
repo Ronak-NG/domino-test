@@ -6,3 +6,5 @@ python-lorem
 scikit-learn
 pillow
 ydata-profiling
+kubernetes
+pygithub
