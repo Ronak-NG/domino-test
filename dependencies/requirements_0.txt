@@ -10,3 +10,4 @@ kubernetes
 pygithub
 domino-py
 docker
+plotly

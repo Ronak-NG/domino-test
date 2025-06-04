@@ -10,7 +10,6 @@ class HttpRequestPiece(BasePiece):
         images = []
         for url in input_data.urls:
             try:
-                url = input_data.url
                 method = input_data.method
 
                 headers = {}
