@@ -169,18 +169,17 @@
                 "memory": 512
             }
         },
-        
         "input_schema": {
             "properties": {
                 "input_csv_file": {
-                    "default": "",
-                    "description": "CSV file contents - paste or edit your CSV data here",
-                    "title": "CSV Data",
-                    "type": "string",
-                    "widget": "codeeditor-text"
+                    "description": ".csv file contents",
+                    "title": "Input Csv File",
+                    "type": "string"
                 }
             },
-            "required": ["input_csv_file"],
+            "required": [
+                "input_csv_file"
+            ],
             "title": "InputModel",
             "type": "object"
         },
