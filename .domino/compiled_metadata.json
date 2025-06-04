@@ -147,7 +147,7 @@
             "Example"
         ],
         "style": {
-            "node_label": "Example Sleep Piece",
+            "node_label": "CSV Loader Piece",
             "node_type": "default",
             "node_style": {
                 "backgroundColor": "#ebebeb"
