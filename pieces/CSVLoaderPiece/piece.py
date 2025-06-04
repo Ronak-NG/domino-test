@@ -19,6 +19,7 @@ class CSVLoaderPiece(BasePiece):
             urls.append(url)
 
         urls = [url for url in urls if url != None]
+        
 
         return OutputModel(
             urls=urls
