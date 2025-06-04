@@ -1,4 +1,67 @@
 {
+    "ExampleSleepPiece": {
+        "name": "ExampleSleepPiece",
+        "dependency": {
+            "dockerfile": null,
+            "requirements_file": "requirements_0.txt"
+        },
+        "tags": [
+            "Example"
+        ],
+        "style": {
+            "node_label": "Example Sleep Piece",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "fa-solid:database",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "This is an example of a simple Domino Piece that sleep for N seconds",
+        "container_resources": {
+            "requests": {
+                "cpu": 100,
+                "memory": 128
+            },
+            "limits": {
+                "cpu": 500,
+                "memory": 512
+            }
+        },
+        "input_schema": {
+            "description": "Sleep Piece Input Model",
+            "properties": {
+                "sleep_time": {
+                    "default": 1,
+                    "description": "Number of seconds to sleep",
+                    "title": "Sleep Time",
+                    "type": "number"
+                }
+            },
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "description": "Sleep Piece Output Model",
+            "properties": {
+                "message": {
+                    "description": "Sleep piece executed",
+                    "title": "Message",
+                    "type": "string"
+                }
+            },
+            "required": [
+                "message"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/Ronak-NG/domino-test/tree/main/pieces/ExampleSleepPiece"
+    },
     "ExampleSineWavePiece": {
         "name": "ExampleSineWavePiece",
         "dependency": {
@@ -74,8 +137,8 @@
         "secrets_schema": null,
         "source_url": "https://github.com/Ronak-NG/domino-test/tree/main/pieces/ExampleSineWavePiece"
     },
-    "ExampleSleepPiece": {
-        "name": "ExampleSleepPiece",
+    "CSVLoaderPiece": {
+        "name": "CSVLoaderPiece",
         "dependency": {
             "dockerfile": null,
             "requirements_file": "requirements_0.txt"
@@ -95,7 +158,7 @@
                 "cursor": "pointer"
             }
         },
-        "description": "This is an example of a simple Domino Piece that sleep for N seconds",
+        "description": "This will take a list of urls and pipe it into the next block",
         "container_resources": {
             "requests": {
                 "cpu": 100,
@@ -107,38 +170,134 @@
             }
         },
         "input_schema": {
-            "description": "Sleep Piece Input Model",
             "properties": {
-                "sleep_time": {
-                    "default": 1,
-                    "description": "Number of seconds to sleep",
-                    "title": "Sleep Time",
-                    "type": "number"
-                }
-            },
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "description": "Sleep Piece Output Model",
-            "properties": {
-                "message": {
-                    "description": "Sleep piece executed",
-                    "title": "Message",
+                "input_csv_file": {
+                    "description": ".csv file contents",
+                    "title": "Input Csv File",
                     "type": "string"
                 }
             },
             "required": [
-                "message"
+                "input_csv_file"
+            ],
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "properties": {
+                "urls": {
+                    "description": "A list of url strings",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Urls",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "urls"
             ],
             "title": "OutputModel",
             "type": "object"
         },
         "secrets_schema": null,
-        "source_url": "https://github.com/Ronak-NG/domino-test/tree/main/pieces/ExampleSleepPiece"
+        "source_url": "https://github.com/Ronak-NG/domino-test/tree/main/pieces/CSVLoaderPiece"
     },
-
-    
+    "HttpRequestPiece": {
+        "name": "HttpRequestPiece",
+        "dependency": {
+            "dockerfile": null,
+            "requirements_file": "requirements_0.txt"
+        },
+        "tags": [
+            "default",
+            "http",
+            "request"
+        ],
+        "style": {
+            "node_label": "HTTP Request",
+            "node_type": "default",
+            "node_style": {
+                "backgroundColor": "#ebebeb"
+            },
+            "useIcon": true,
+            "icon_class_name": "material-symbols:send",
+            "iconStyle": {
+                "cursor": "pointer"
+            }
+        },
+        "description": "Makes a HTTP request to a given URL.",
+        "input_schema": {
+            "$defs": {
+                "MethodTypes": {
+                    "enum": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "DELETE"
+                    ],
+                    "title": "MethodTypes",
+                    "type": "string"
+                }
+            },
+            "properties": {
+                "urls": {
+                    "description": "URLs to make a request to.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Urls",
+                    "type": "array"
+                },
+                "method": {
+                    "allOf": [
+                        {
+                            "$ref": "#/$defs/MethodTypes"
+                        }
+                    ],
+                    "default": "GET",
+                    "description": "HTTP method to use."
+                },
+                "bearer_token": {
+                    "default": null,
+                    "description": "Bearer token to use for authentication.",
+                    "title": "Bearer Token",
+                    "type": "string"
+                },
+                "body_json_data": {
+                    "default": "{\n    \"key_1\": \"value_1\",\n    \"key_2\": \"value_2\"\n}\n",
+                    "description": "JSON data to send in the request body.",
+                    "title": "Body Json Data",
+                    "type": "string",
+                    "widget": "codeeditor-json"
+                }
+            },
+            "required": [
+                "urls"
+            ],
+            "title": "InputModel",
+            "type": "object"
+        },
+        "output_schema": {
+            "properties": {
+                "base64_bytes_data": {
+                    "description": "Output data as base64 encoded string.",
+                    "items": {
+                        "type": "string"
+                    },
+                    "title": "Base64 Bytes Data",
+                    "type": "array"
+                }
+            },
+            "required": [
+                "base64_bytes_data"
+            ],
+            "title": "OutputModel",
+            "type": "object"
+        },
+        "secrets_schema": null,
+        "source_url": "https://github.com/Ronak-NG/domino-test/tree/main/pieces/HttpRequestPiece"
+    },
     "ImageFilterPiece": {
         "name": "ImageFilterPiece",
         "dependency": {
@@ -161,7 +320,7 @@
                 "cursor": "pointer"
             }
         },
-        "description": "A Piece that applies selected image filters to multiple images.",
+        "description": "A Piece that applies selected image filters to an image.",
         "input_schema": {
             "$defs": {
                 "OutputTypeType": {
@@ -177,14 +336,13 @@
             },
             "properties": {
                 "input_images": {
-                    "description": "Input images. Each should be either a path to a file, or a base64 encoded string.",
+                    "description": "Input image. It should be either a path to a file, or a base64 encoded string.",
                     "from_upstream": "always",
-                    "title": "Input Images",
-                    "type": "array",
                     "items": {
                         "type": "string"
                     },
-                    "minItems": 1
+                    "title": "Input Images",
+                    "type": "array"
                 },
                 "sepia": {
                     "default": false,
@@ -253,7 +411,7 @@
                         }
                     ],
                     "default": "both",
-                    "description": "Format of the output images. Options are: `file`, `base64_string`, `both`."
+                    "description": "Format of the output image. Options are: `file`, `base64_string`, `both`."
                 }
             },
             "required": [
@@ -265,22 +423,22 @@
         "output_schema": {
             "properties": {
                 "image_base64_strings": {
-                    "default": [],
-                    "description": "Base64 encoded strings of the output images.",
-                    "title": "Image Base64 Strings",
-                    "type": "array",
+                    "default": "",
+                    "description": "Base64 encoded string of the output image.",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "title": "Image Base64 Strings",
+                    "type": "array"
                 },
                 "image_file_paths": {
-                    "default": [],
-                    "description": "Paths to the output image files.",
-                    "title": "Image File Paths",
-                    "type": "array",
+                    "default": "",
+                    "description": "Path to the output image file.",
                     "items": {
                         "type": "string"
-                    }
+                    },
+                    "title": "Image File Paths",
+                    "type": "array"
                 }
             },
             "title": "OutputModel",
@@ -288,160 +446,5 @@
         },
         "secrets_schema": null,
         "source_url": "https://github.com/Ronak-NG/domino-test/tree/main/pieces/ImageFilterPiece"
-    },
-
-    "HttpRequestPiece": {
-        "name": "HttpRequestPiece",
-        "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
-        },
-        "tags": [
-            "default",
-            "http",
-            "request"
-        ],
-        "style": {
-            "node_label": "HTTP Request",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "material-symbols:send",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "Makes HTTP requests to given URLs.",
-        "input_schema": {
-            "$defs": {
-                "MethodTypes": {
-                    "enum": [
-                        "GET",
-                        "POST",
-                        "PUT",
-                        "DELETE"
-                    ],
-                    "title": "MethodTypes",
-                    "type": "string"
-                }
-            },
-            "properties": {
-                "urls": {
-                    "description": "URLs to make requests to.",
-                    "title": "Urls",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    },
-                    "minItems": 1
-                },
-                "method": {
-                    "allOf": [
-                        {
-                            "$ref": "#/$defs/MethodTypes"
-                        }
-                    ],
-                    "default": "GET",
-                    "description": "HTTP method to use."
-                },
-                "bearer_token": {
-                    "default": null,
-                    "description": "Bearer token to use for authentication.",
-                    "title": "Bearer Token",
-                    "type": ["string", "null"]
-                },
-                "body_json_data": {
-                    "default": "{\n    \"key_1\": \"value_1\",\n    \"key_2\": \"value_2\"\n}\n",
-                    "description": "JSON data to send in the request body.",
-                    "title": "Body Json Data",
-                    "type": "string",
-                    "widget": "codeeditor-json"
-                }
-            },
-            "required": [
-                "urls"
-            ],
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "properties": {
-                "base64_bytes_data": {
-                    "description": "Output data as base64 encoded strings.",
-                    "title": "Base64 Bytes Data",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            },
-            "required": [
-                "base64_bytes_data"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/Ronak-NG/domino-test/tree/main/pieces/HttpRequestPiece"
-    },
-
-    "CSVLoaderPiece": {
-        "name": "CSVLoaderPiece",
-        "dependency": {
-            "dockerfile": null,
-            "requirements_file": "requirements_0.txt"
-        },
-        "tags": [
-            "default"
-        ],
-        "style": {
-            "node_label": "CSV Loader",
-            "node_type": "default",
-            "node_style": {
-                "backgroundColor": "#ebebeb"
-            },
-            "useIcon": true,
-            "icon_class_name": "material-symbols:send",
-            "iconStyle": {
-                "cursor": "pointer"
-            }
-        },
-        "description": "Takes a csv file and returns a list of urls",
-        "input_schema": {
-            
-            "properties": {
-                "input_csv_file": {
-                    "description": ".csv file contents",
-                    "title": "CSV File",
-                    "type": "string"
-                }
-            },
-            "required": [
-                "input_csv_file"
-            ],
-            "title": "InputModel",
-            "type": "object"
-        },
-        "output_schema": {
-            "properties": {
-                "urls": {
-                    "description": "A list of urls",
-                    "title": "URLs",
-                    "type": "array",
-                    "items": {
-                        "type": "string"
-                    }
-                }
-            },
-            "required": [
-                "urls"
-            ],
-            "title": "OutputModel",
-            "type": "object"
-        },
-        "secrets_schema": null,
-        "source_url": "https://github.com/Ronak-NG/domino-test/tree/main/pieces/HttpRequestPiece"
-    }    
+    }
 }
