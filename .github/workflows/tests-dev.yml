@@ -37,6 +37,9 @@ jobs:
           username: ${{ github.actor }}
           password: ${{ secrets.GITHUB_TOKEN }}
 
+      - name: Install Dependencies
+        run: pip install -r dependencies/requirements_0.txt
+
       - name: pip list
         run: pip list | grep domino
 
