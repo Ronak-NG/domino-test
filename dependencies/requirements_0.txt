@@ -8,3 +8,4 @@ pillow
 ydata-profiling
 kubernetes
 pygithub
+domino-py
